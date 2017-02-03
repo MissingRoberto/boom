@@ -8,11 +8,11 @@ import (
 
 var _ = Describe("Boom", func() {
 	var (
-		validMap map[string]interface{}
-		boom     Boom
+		validManifest Manifest
+		boom          Boom
 	)
 	BeforeEach(func() {
-		validMap := Manifest{
+		validManifest = Manifest{
 			Jobs: []Job{Job{
 				Name:      "brain",
 				Instances: 1,
@@ -28,11 +28,17 @@ var _ = Describe("Boom", func() {
 	Context("SetInstances", func() {
 		Context("when the job is found", func() {
 			It("updates the value", func() {
-				result, err := boom.SetInstances("cell", 2)
+				err := boom.SetInstances(&validManifest, "cell", 2)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(result[0].Instances).To(Equal(2))
+				Expect(validManifest.Jobs[1].Instances).To(Equal(2))
 			})
+			It("returns an error if instance is not found", func() {
 
+				err := boom.SetInstances(&validManifest, "not-existing", 2)
+				Expect(err).To(HaveOccurred())
+				Expect(err).To(MatchError("job `not-existing` not found"))
+
+			})
 		})
 	})
 })
