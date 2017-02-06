@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"os/exec"
 	"strconv"
 
 	boomPkg "github.com/jszroberto/boom"
@@ -11,6 +13,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
+	app.EnableBashCompletion = true
 
 	app.Commands = []cli.Command{
 		{
@@ -19,7 +22,9 @@ func main() {
 			Usage:   "Sets the number of instances",
 			Action:  setInstances,
 			Flags: []cli.Flag{
+				cli.BoolFlag{Name: "output, o"},
 				cli.BoolFlag{Name: "force, f"},
+				cli.BoolFlag{Name: "diff, d"},
 			},
 		},
 		{
@@ -28,7 +33,9 @@ func main() {
 			Usage:   "Scale number of instances",
 			Action:  scaleInstances,
 			Flags: []cli.Flag{
+				cli.BoolFlag{Name: "output, o"},
 				cli.BoolFlag{Name: "force, f"},
+				cli.BoolFlag{Name: "diff, d"},
 			},
 		},
 	}
@@ -51,7 +58,20 @@ func setInstances(c *cli.Context) {
 		fmt.Println(err)
 		os.Exit(2)
 	}
-	boom.Print()
+
+	if c.Bool("output") {
+		boom.Print()
+	} else if c.Bool("diff") {
+		tmpFile, err := ioutil.TempFile("", "manifest.yml")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(2)
+		}
+		writeFile(tmpFile.Name(), boom.String())
+		diff(tmpFile.Name(), args.First())
+	} else {
+		writeFile(args.First(), boom.String())
+	}
 }
 
 func scaleInstances(c *cli.Context) {
@@ -69,5 +89,22 @@ func scaleInstances(c *cli.Context) {
 		fmt.Println(err)
 		os.Exit(2)
 	}
-	boom.Print()
+	if c.Bool("output") {
+		boom.Print()
+	} else {
+		writeFile(args.First(), boom.String())
+	}
+}
+
+func diff(first string, second string) {
+	cmd, _ := exec.Command("wdiff", "-n", "-w", "\033[30;41m", "-x", "\033[0m", "-y", "\033[30;42m", "-z", "\033[0m", first, second).Output()
+	fmt.Printf("%s", cmd)
+}
+
+func writeFile(path string, content string) {
+	err := ioutil.WriteFile(path, []byte(content), 0644)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(2)
+	}
 }
