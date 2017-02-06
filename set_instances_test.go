@@ -1,4 +1,4 @@
-package main
+package boom
 
 import (
 	"github.com/geofffranks/simpleyaml"
@@ -12,14 +12,14 @@ var _ = Describe("Boom", func() {
 	)
 	Context("SetInstances", func() {
 		BeforeEach(func() {
-			boom = New(completeManifestPath)
+			boom = New(completeManifestPath, false)
 		})
 		Context("when the job is found", func() {
 			Context("and the resource_pool is specified", func() {
 
 				Context("when resource_pools does not exist", func() {
 					It("updates the value in the job", func() {
-						boom = New(manifestWithoutResourcePoolsPath)
+						boom = New(manifestWithoutResourcePoolsPath, false)
 						err := boom.SetInstances("cell", 2)
 						Expect(err).NotTo(HaveOccurred())
 						result, err := simpleyaml.NewYaml([]byte(boom.String()))

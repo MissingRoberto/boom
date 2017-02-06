@@ -1,4 +1,4 @@
-package main
+package boom
 
 import (
 	. "github.com/onsi/ginkgo"

@@ -1,4 +1,4 @@
-package main
+package boom
 
 import (
 	"errors"
@@ -15,18 +15,17 @@ type Boom struct {
 	Manifest map[string]interface{}
 }
 
-func New(manifestPath string) *Boom {
+func New(manifestPath string, force bool) *Boom {
 
 	manifest, err := loadYML(manifestPath)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 	}
-
-	return &Boom{Manifest: manifest}
+	return &Boom{Manifest: manifest, Force: force}
 }
 
-func (b *Boom) ScaleInstances(name string, factor float32) error {
+func (b *Boom) ScaleInstances(name string, factor float64) error {
 	if factor == 0 {
 		return errors.New("factor 0 is not permitted")
 	}
@@ -36,7 +35,7 @@ func (b *Boom) ScaleInstances(name string, factor float32) error {
 		return err
 	}
 	oldValue := job["instances"].(int)
-	variation := int(float32(oldValue)*factor) - oldValue
+	variation := int(float64(oldValue)*factor) - oldValue
 	if b.Force && variation == 0 {
 		if factor > 1 {
 			variation++

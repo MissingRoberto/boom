@@ -1,4 +1,4 @@
-package main
+package boom
 
 import (
 	"github.com/geofffranks/simpleyaml"
@@ -13,7 +13,7 @@ var _ = Describe("Boom", func() {
 
 	Context("ScaleInstances", func() {
 		BeforeEach(func() {
-			boom = New(completeManifestPath)
+			boom = New(completeManifestPath, false)
 		})
 		Context("when the job is found", func() {
 			Context("when the value is not round", func() {
