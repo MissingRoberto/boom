@@ -1,0 +1,13 @@
+---
+jobs:
+  - name: cell
+    instances: 20
+    resource_pool: dedicated
+  - name: brain
+    instances: 2
+    resource_pool: shared
+resource_pools:
+  - name: dedicated
+    size: 20
+  - name: shared
+    size: 5

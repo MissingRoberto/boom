@@ -1,0 +1,7 @@
+---
+jobs:
+  - name: cell
+    resource_pool: dedicated
+    instances: 20
+  - name: brain
+    instances: 2
