@@ -91,9 +91,18 @@ func scaleInstances(c *cli.Context) {
 	}
 	if c.Bool("output") {
 		boom.Print()
+	} else if c.Bool("diff") {
+		tmpFile, err := ioutil.TempFile("", "manifest.yml")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(2)
+		}
+		writeFile(tmpFile.Name(), boom.String())
+		diff(tmpFile.Name(), args.First())
 	} else {
 		writeFile(args.First(), boom.String())
 	}
+
 }
 
 func diff(first string, second string) {
