@@ -70,7 +70,7 @@ func setInstances(c *cli.Context) {
 		writeFile(tmpFile.Name(), boom.String())
 		diff(tmpFile.Name(), args.First())
 	} else {
-		writeFile(args.First(), boom.String())
+		writeFile(boom.String(), args.First())
 	}
 }
 
