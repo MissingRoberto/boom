@@ -18,3 +18,16 @@ $ wget https://github.com/jszroberto/boom/releases/download/0.1/boom ; chmod +x 
 $ wget https://github.com/jszroberto/boom/releases/download/0.1/boom-linux ; chmod +x boom-linux; mv boom-linux /usr/local/bin/boom
 ```
 
+
+## Usage 
+
+```
+ si    Sets the number of instances
+~                              |  ~                                                                                │     scale-instances, sc  Scale number of instances
+~                              |  ~                                                                                │     help, h              Shows a list of commands or help for
+~                              |  ~                                                                                │ one command
+~                              |  ~                                                                                │
+~                              |  ~                                                                                │GLOBAL OPTIONS:
+~                              |  ~                                                                                │   --help, -h     show help
+~                              |  ~                                                                                │   --version, -v  print the version
+```
