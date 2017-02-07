@@ -1,15 +1,17 @@
 ---
 jobs:
-  - name: cell
-    instances: 20
-    resource_pool: dedicated
-  - name: brain
-    instances: 2
-    resource_pool: shared
-  - name: no-resource-pool 
-    instances: 2
+- instances: 20
+  name: cell
+  resource_pool: dedicated
+- instances: 2
+  name: brain
+  resource_pool: shared
+- instances: 2
+  name: no-resource-pool
 resource_pools:
-  - name: dedicated
-    size: 20
-  - name: shared
-    size: 5
+- name: dedicated
+  size: 20
+- name: shared
+  size: 5
+
+

@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
-	"os/exec"
 	"strconv"
 
 	boomPkg "github.com/jszroberto/boom"
@@ -50,27 +47,18 @@ func setInstances(c *cli.Context) {
 	boom := boomPkg.New(args.First(), c.Bool("force"))
 	size, err := strconv.Atoi(args.Get(2))
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		exitWithError(err)
 	}
 	err = boom.SetInstances(args.Get(1), size)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		exitWithError(err)
 	}
-
 	if c.Bool("output") {
 		boom.Print()
 	} else if c.Bool("diff") {
-		tmpFile, err := ioutil.TempFile("", "manifest.yml")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(2)
-		}
-		writeFile(tmpFile.Name(), boom.String())
-		diff(tmpFile.Name(), args.First())
+		diff(boom, args.First())
 	} else {
-		writeFile(boom.String(), args.First())
+		writeFile(args.First(), boom.String())
 	}
 }
 
@@ -81,39 +69,17 @@ func scaleInstances(c *cli.Context) {
 	boom := boomPkg.New(args.First(), c.Bool("force"))
 	factor, err := strconv.ParseFloat(args.Get(2), 64)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		exitWithError(err)
 	}
 	err = boom.ScaleInstances(args.Get(1), factor)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
+		exitWithError(err)
 	}
 	if c.Bool("output") {
 		boom.Print()
 	} else if c.Bool("diff") {
-		tmpFile, err := ioutil.TempFile("", "manifest.yml")
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(2)
-		}
-		writeFile(tmpFile.Name(), boom.String())
-		diff(tmpFile.Name(), args.First())
+		diff(boom, args.First())
 	} else {
 		writeFile(args.First(), boom.String())
-	}
-
-}
-
-func diff(first string, second string) {
-	cmd, _ := exec.Command("wdiff", "-n", "-w", "\033[30;41m", "-x", "\033[0m", "-y", "\033[30;42m", "-z", "\033[0m", first, second).Output()
-	fmt.Printf("%s", cmd)
-}
-
-func writeFile(path string, content string) {
-	err := ioutil.WriteFile(path, []byte(content), 0644)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
 	}
 }
