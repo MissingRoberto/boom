@@ -1,4 +1,6 @@
-# boom
+# boom 
+
+Boom is a tool for manipulating bosh manifests
 
 ## Installation
 
