@@ -6,6 +6,8 @@ jobs:
   - name: brain
     instances: 2
     resource_pool: shared
+  - name: no-resource-pool 
+    instances: 2
 resource_pools:
   - name: dedicated
     size: 20

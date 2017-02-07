@@ -71,17 +71,26 @@ var _ = Describe("Boom", func() {
 					})
 				})
 			})
-			// TODO - Here is specified
+
 			Context("and the resource_pool is not specified", func() {
 				It("updates the value in the job", func() {
-					err := boom.SetInstances("cell", 2)
+					err := boom.SetInstances("no-resource-pool", 2)
 					Expect(err).NotTo(HaveOccurred())
 					result, err := simpleyaml.NewYaml([]byte(boom.String()))
 					Expect(err).NotTo(HaveOccurred())
-					Expect(result.Get("jobs").GetIndex(0).Get("instances").Int()).To(Equal(2))
+					Expect(result.Get("jobs").GetIndex(2).Get("instances").Int()).To(Equal(2))
 				})
 			})
 		})
+
+		FContext("when the `jobs` is not in the manifest", func() {
+			It("does not returns an error", func() {
+				delete(boom.Manifest, "jobs")
+				err := boom.SetInstances("cell", 2)
+				Expect(err).ToNot(HaveOccurred())
+			})
+		})
+
 		Context("when the job is not found", func() {
 			It("returns an error", func() {
 				err := boom.SetInstances("not-existing", 2)

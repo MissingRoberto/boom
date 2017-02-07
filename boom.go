@@ -28,6 +28,10 @@ func (b *Boom) ScaleInstances(name string, factor float64) error {
 	if factor == 0 {
 		return errors.New("factor 0 is not permitted")
 	}
+
+	if b.Manifest["jobs"] == nil {
+		return nil
+	}
 	jobs := b.Manifest["jobs"].([]interface{})
 	job, _, err := findByName(jobs, name)
 	if err != nil {
@@ -46,6 +50,9 @@ func (b *Boom) ScaleInstances(name string, factor float64) error {
 }
 
 func (b *Boom) SetInstances(name string, value int) error {
+	if b.Manifest["jobs"] == nil {
+		return nil
+	}
 	jobs := b.Manifest["jobs"].([]interface{})
 	job, index, err := findByName(jobs, name)
 	if err != nil {
@@ -57,7 +64,7 @@ func (b *Boom) SetInstances(name string, value int) error {
 	jobs[index] = job
 	b.Manifest["jobs"] = jobs
 
-	if b.Manifest["resource_pools"] != nil {
+	if job["resource_pool"] != nil && b.Manifest["resource_pools"] != nil {
 		resourcePools := b.Manifest["resource_pools"].([]interface{})
 		pool, indexResourcePool, err := findByName(resourcePools, job["resource_pool"].(string))
 

@@ -105,6 +105,14 @@ var _ = Describe("Boom", func() {
 			})
 		})
 
+		Context("when the `jobs` is not in the manifest", func() {
+			It("does not return an error", func() {
+				delete(boom.Manifest, "jobs")
+				err := boom.SetInstances("cell", 2)
+				Expect(err).NotTo(HaveOccurred())
+			})
+		})
+
 		Context("when the job is not found", func() {
 			It("returns an error", func() {
 				err := boom.SetInstances("not-existing", 2)
