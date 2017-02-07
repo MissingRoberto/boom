@@ -1,6 +1,6 @@
 # boom
 
-Boom is a tool for manipulating bosh manifests
+Boom is a tool for manipulating bosh manifests. This tool aims to help not only with the quick modification of manifest, but also to with the maintenance of Bosh configuration.
 
 ## Installation
 
