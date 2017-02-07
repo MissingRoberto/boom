@@ -83,7 +83,7 @@ var _ = Describe("Boom", func() {
 			})
 		})
 
-		FContext("when the `jobs` is not in the manifest", func() {
+		Context("when the `jobs` is not in the manifest", func() {
 			It("does not returns an error", func() {
 				delete(boom.Manifest, "jobs")
 				err := boom.SetInstances("cell", 2)
