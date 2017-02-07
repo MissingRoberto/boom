@@ -18,7 +18,7 @@ func main() {
 		{
 			Name:      "set-instances",
 			Aliases:   []string{"si"},
-			Usage:     "Sets the number of instances",
+			Usage:     "Set the number of instances",
 			ArgsUsage: "<MANIFEST> <JOB_NAME> <VALUE>\n\nExample:\n $ boom set-instances manifest.yml cell 10",
 			Action:    setInstances,
 			Flags: []cli.Flag{

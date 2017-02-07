@@ -1,6 +1,6 @@
 # boom
 
-Boom is a tool for manipulating bosh manifests. This tool aims to help not only with the quick modification of manifest, but also to with the maintenance of Bosh configuration.
+Boom is a tool for manipulating bosh manifests. This tool targets not only to help with the quick manifest modification, but also to with the maintenance of Bosh configuration.
 
 ## Installation
 
@@ -23,16 +23,16 @@ $ wget https://github.com/jszroberto/boom/releases/download/0.1/boom-linux ; chm
 
 ```
 NAME:
-   boom - A new cli application
+   boom - a simple and quick tool for bosh manifest maintenance
 
 USAGE:
    boom [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.0
+   0.1.0
 
 COMMANDS:
-     set-instances, si    Sets the number of instances
+     set-instances, si    Set the number of instances
      scale-instances, sc  Scale number of instances
      help, h              Shows a list of commands or help for one command
 
