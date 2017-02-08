@@ -55,13 +55,19 @@ func (b *Boom) Mask(list string, key string) error {
 	}
 
 	manifest := map[string]interface{}{}
-	slice := b.Manifest[list].([]interface{})
+	slice, ok := b.Manifest[list].([]interface{})
+	if !ok {
+		return errors.New(fmt.Sprintf("key `%s` is not a list", list))
+	}
+
 	maskedList := []interface{}{}
 	for _, v := range slice {
 		masked := map[string]interface{}{}
 		element := v.(map[string]interface{})
 		masked["name"] = element["name"]
-		masked[key] = element[key]
+		if key != "" {
+			masked[key] = element[key]
+		}
 		maskedList = append(maskedList, masked)
 	}
 	manifest[list] = maskedList

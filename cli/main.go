@@ -53,7 +53,7 @@ func main() {
 
 func mask(c *cli.Context) {
 
-	if c.NArg() != 3 {
+	if c.NArg() < 2 {
 		cli.ShowAppHelp(c)
 		exitWithError(errors.New("invalid number of arguments"))
 	}

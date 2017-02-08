@@ -20,4 +20,5 @@ resource_pools:
 - name: shared
   size: 5
 
-
+properties:
+  diego: true
