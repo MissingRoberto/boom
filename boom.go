@@ -49,6 +49,26 @@ func (b *Boom) ScaleInstances(name string, factor float64) error {
 	return b.SetInstances(name, newValue)
 }
 
+func (b *Boom) Mask(list string, key string) error {
+	if b.Manifest[list] == nil {
+		return errors.New(fmt.Sprintf("list `%s` not found", list))
+	}
+
+	manifest := map[string]interface{}{}
+	slice := b.Manifest[list].([]interface{})
+	maskedList := []interface{}{}
+	for _, v := range slice {
+		masked := map[string]interface{}{}
+		element := v.(map[string]interface{})
+		masked["name"] = element["name"]
+		masked[key] = element[key]
+		maskedList = append(maskedList, masked)
+	}
+	manifest[list] = maskedList
+	b.Manifest = manifest
+	return nil
+}
+
 func (b *Boom) SetInstances(name string, value int) error {
 	if b.Manifest["jobs"] == nil {
 		return nil

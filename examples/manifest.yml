@@ -1,4 +1,10 @@
 ---
+releases:
+- name: cf
+  version: 245
+- name: diego
+  version: 1.0
+
 jobs:
 - instances: 20
   name: cell
