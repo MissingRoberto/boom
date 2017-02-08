@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 	"strconv"
 
@@ -15,6 +16,13 @@ func main() {
 	app.Name = "boom"
 	app.Usage = "a simple and quick tool for bosh manifest maintenance"
 	app.Commands = []cli.Command{
+		{
+			Name:      "mask",
+			Aliases:   []string{"si"},
+			Usage:     "creates a mask for a given list and a given key",
+			ArgsUsage: "<MANIFEST> <LIST> <KEY>\n\nExample:\n $ boom mask manifest.yml jobs instances",
+			Action:    mask,
+		},
 		{
 			Name:      "set-instances",
 			Aliases:   []string{"si"},
@@ -43,7 +51,29 @@ func main() {
 
 }
 
+func mask(c *cli.Context) {
+
+	if c.NArg() != 3 {
+		cli.ShowAppHelp(c)
+		exitWithError(errors.New("invalid number of arguments"))
+	}
+
+	args := c.Args()
+	boom := boomPkg.New(args.First(), false)
+	err := boom.Mask(args.Get(1), args.Get(2))
+	if err != nil {
+		exitWithError(err)
+	}
+	boom.Print()
+
+}
+
 func setInstances(c *cli.Context) {
+
+	if c.NArg() != 3 {
+		cli.ShowAppHelp(c)
+		exitWithError(errors.New("invalid number of arguments"))
+	}
 
 	args := c.Args()
 
@@ -66,6 +96,11 @@ func setInstances(c *cli.Context) {
 }
 
 func scaleInstances(c *cli.Context) {
+
+	if c.NArg() != 3 {
+		cli.ShowAppHelp(c)
+		exitWithError(errors.New("invalid number of arguments"))
+	}
 
 	args := c.Args()
 
