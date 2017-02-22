@@ -6,8 +6,14 @@ Boom is a tool for manipulating bosh manifests. This tool targets not only to he
 
 * Mac OS
 
+You can install it using brew: 
 ```
+brew tap jszroberto/cf
+brew install boom
+```
+or without brew as follows:
 
+```
 $ wget https://github.com/jszroberto/boom/releases/download/0.1/boom ; chmod +x boom; mv boom /usr/local/bin
 ```
 
